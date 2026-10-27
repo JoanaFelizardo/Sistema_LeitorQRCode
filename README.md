@@ -1,9 +1,9 @@
 Markdown
-# 🎟️ Sistema de Check-in & Gamificação via QR Code (MVP)
+# Sistema de Check-in & Gamificação via QR Code (MVP)
 
 MVP desenvolvido para a disciplina de **Paradigmas de Programação**. A aplicação gerencia a criação e validação de check-ins em eventos utilizando QR Codes gerados dinamicamente em formato JSON.
 
-## 🚀 Funcionalidades
+## Funcionalidades
 
 - **Módulo Administrador:**
   - Cadastro de eventos (Nome, Data e Horário).
@@ -15,7 +15,7 @@ MVP desenvolvido para a disciplina de **Paradigmas de Programação**. A aplica�
   - Validação da estrutura de dados do evento.
   - Confirmação e exibição do check-in realizado.
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - **HTML5 & CSS3**
 - **JavaScript (ES6+)**
