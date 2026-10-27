@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin MVP</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 700px;
+            margin: auto;
+            text-align: center;
+        }
+        .box {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 10px;
+            background: #f5f5f5;
+            box-shadow: 0 0 8px #ddd;
+        }
+        input {
+            padding: 12px;
+            width: 90%;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid #bbb;
+        }
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        #lista {
+            margin-top: 25px;
+        }
+        .itemQR {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 0 6px #ccc;
+            text-align: center;
+        }
+        canvas {
+            display: block;
+            margin: 10px auto;
+        }
+        a.downloadBtn {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 10px 16px;
+            background: #28a745;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        a.voltar {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007bff;
+            font-size: 18px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Admin - Qr Code</h2>
+
+    <div class="box">
+        <h3>Gerar QR de Evento</h3>
+
+        <input type="text" id="nomeEvento" placeholder="Nome do evento">
+        <input type="date" id="dataEvento">
+        <input type="time" id="horaEvento">
+
+        <button onclick="gerarQRCode()">Gerar QR Code</button>
+    </div>
+
+    <a href="index.html" class="voltar">← Voltar ao Login</a>
+
+    <div id="lista"></div>
+
+    <script>
+        function gerarQRCode() {
+            const nome = document.getElementById("nomeEvento").value.trim();
+            const data = document.getElementById("dataEvento").value;
+            const hora = document.getElementById("horaEvento").value;
+
+            if (!nome || !data || !hora) {
+                alert("Preencha todos os campos!");
+                return;
+            }
+
+            const payload = JSON.stringify({
+                evento: nome,
+                data: data,
+                hora: hora
+            });
+
+            // Criar container
+            const item = document.createElement("div");
+            item.className = "itemQR";
+
+            const titulo = document.createElement("p");
+            titulo.innerHTML = `<b>${nome}</b><br>${data} às ${hora}`;
+            item.appendChild(titulo);
+
+          
+            const canvas = document.createElement("canvas");
+            item.appendChild(canvas);
+
+           
+            const qr = new QRious({
+                element: canvas,
+                value: payload,
+                size: 250
+            });
+
+            // Botão para baixar
+            const link = document.createElement("a");
+            link.className = "downloadBtn";
+            link.textContent = "Baixar QR Code";
+            link.download = nome + ".png";
+            link.href = canvas.toDataURL("image/png");
+
+            item.appendChild(link);
+
+            // Adicionar na lista
+            document.getElementById("lista").appendChild(item);
+        }
+    </script>
+
+</body>
+</html>

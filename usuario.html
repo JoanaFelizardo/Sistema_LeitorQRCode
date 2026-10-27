@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Usuário</title>
+
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+            text-align: center;
+        }
+        #reader {
+            width: 300px;
+            margin: auto;
+            margin-top: 30px;
+        }
+        #resultado {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .erro {
+            color: red;
+        }
+        .sucesso {
+            color: green;
+        }
+        a.voltar {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007bff;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Página do Usuário</h2>
+
+    <div id="reader"></div>
+    <div id="resultado"></div>
+
+    <a href="index.html" class="voltar">← Voltar ao Login</a>
+
+    <script>
+        function formatarData(data) {
+            const d = new Date(data + "T00:00:00");
+            return d.toLocaleDateString("pt-BR");
+        }
+
+        function onScanSuccess(decodedText) {
+            let dado;
+
+            try {
+                dado = JSON.parse(decodedText);
+            } catch (e) {
+                document.getElementById("resultado").innerHTML =
+                    "<span class='erro'>QR Code inválido!</span>";
+                return;
+            }
+
+            if (!dado.evento || !dado.data || !dado.hora) {
+                document.getElementById("resultado").innerHTML =
+                    "<span class='erro'>QR Code inválido!</span>";
+                return;
+            }
+
+            const dataFormatada = formatarData(dado.data);
+
+            document.getElementById("resultado").innerHTML =
+                `<span class='sucesso'>
+                Check-in realizado!<br>
+                Evento: ${dado.evento}<br>
+                Data: ${dataFormatada}<br>
+                Hora: ${dado.hora}
+                </span>`;
+        }
+
+        const qrReader = new Html5Qrcode("reader");
+
+        qrReader.start(
+            { facingMode: "environment" },
+            { fps: 10, qrbox: 250 },
+            onScanSuccess
+        );
+    </script>
+
+</body>
+</html>
